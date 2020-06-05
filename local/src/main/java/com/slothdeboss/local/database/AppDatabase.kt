@@ -24,10 +24,6 @@ abstract class AppDatabase: RoomDatabase() {
             INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
         }
 
-        fun deleteDatabase() {
-            INSTANCE = null
-        }
-
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context,
             AppDatabase::class.java,

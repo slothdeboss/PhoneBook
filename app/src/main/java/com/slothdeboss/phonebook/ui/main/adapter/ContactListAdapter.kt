@@ -6,9 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.slothdeboss.domain.entity.Contact
 import com.slothdeboss.phonebook.R
+import com.slothdeboss.phonebook.ui.OnContactClicked
 import kotlinx.android.synthetic.main.contact_card.view.*
 
-class ContactListAdapter: RecyclerView.Adapter<ContactListViewHolder>() {
+class ContactListAdapter(
+    private val contactsOwner: OnContactClicked
+): RecyclerView.Adapter<ContactListViewHolder>() {
 
     private val contacts = mutableListOf<Contact>()
 
@@ -23,7 +26,7 @@ class ContactListAdapter: RecyclerView.Adapter<ContactListViewHolder>() {
 
     override fun onBindViewHolder(holder: ContactListViewHolder, position: Int) {
         val contact = contacts[position]
-        holder.bind(contact = contact)
+        holder.bind(contact = contact, contactsOwner = contactsOwner)
     }
 
     fun refreshContacts(newContacts: List<Contact>) {
@@ -35,8 +38,11 @@ class ContactListAdapter: RecyclerView.Adapter<ContactListViewHolder>() {
 
 class ContactListViewHolder(val view: View): RecyclerView.ViewHolder(view) {
 
-    fun bind(contact: Contact) {
+    fun bind(contact: Contact, contactsOwner: OnContactClicked) {
         view.cardContactName.text = contact.name
+        view.setOnClickListener {
+            contactsOwner.onClick(id = contact.id)
+        }
     }
 
 }

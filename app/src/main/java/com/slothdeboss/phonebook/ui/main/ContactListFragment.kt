@@ -3,22 +3,24 @@ package com.slothdeboss.phonebook.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.slothdeboss.domain.entity.Contact
 import com.slothdeboss.domain.state.*
 import com.slothdeboss.phonebook.R
 import com.slothdeboss.phonebook.base.BaseFragment
 import com.slothdeboss.phonebook.event.LoadAllContacts
+import com.slothdeboss.phonebook.ui.OnContactClicked
 import com.slothdeboss.phonebook.ui.main.adapter.ContactListAdapter
 import kotlinx.android.synthetic.main.fragment_contact_list.*
 
-class ContactListFragment : BaseFragment(R.layout.fragment_contact_list) {
+class ContactListFragment : BaseFragment(R.layout.fragment_contact_list), OnContactClicked {
 
     private lateinit var contactRecyclerAdapter: ContactListAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        contactRecyclerAdapter = ContactListAdapter()
+        contactRecyclerAdapter = ContactListAdapter(contactsOwner = this)
         viewModel.renderEvent(event = LoadAllContacts)
         setupRecycler()
     }
@@ -31,6 +33,12 @@ class ContactListFragment : BaseFragment(R.layout.fragment_contact_list) {
                 is OnErrorState -> onErrorState(message = state.message)
             }
         })
+    }
+
+    override fun onClick(id: Long) {
+        Navigation.findNavController(btnCreateContact).navigate(
+            ContactListFragmentDirections.toContactDetail().setContactId(id)
+        )
     }
 
     private fun onContactsLoadedState(contacts: List<Contact>) {
@@ -55,4 +63,6 @@ class ContactListFragment : BaseFragment(R.layout.fragment_contact_list) {
             adapter = contactRecyclerAdapter
         }
     }
+
+
 }

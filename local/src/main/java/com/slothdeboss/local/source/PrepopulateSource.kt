@@ -11,7 +11,7 @@ internal object PrepopulateSource {
         ),
         LocalContact(
             name = "Elon", surname = "Musk",
-            imageUrl = "", email = "@ElonMuskexample.com"
+            imageUrl = "", email = "ElonMusk@example.com"
         ),
         LocalContact(
             name = "Andrey", surname = "Breslav",
