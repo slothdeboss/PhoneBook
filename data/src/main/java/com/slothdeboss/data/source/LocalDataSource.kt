@@ -8,6 +8,6 @@ interface LocalDataSource {
     fun getById(id: Long): ContactModel
     fun create(entity: ContactModel)
     fun update(entity: ContactModel)
-    fun delete(entity: ContactModel)
+    fun delete(id: Long)
 
 }

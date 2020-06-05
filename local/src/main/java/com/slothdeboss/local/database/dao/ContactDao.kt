@@ -18,8 +18,8 @@ interface ContactDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateContact(contact: LocalContact)
 
-    @Delete
-    fun deleteContact(contact: LocalContact)
+    @Query("DELETE FROM LocalContact WHERE id LIKE :id")
+    fun deleteContact(id: Long)
 
     @Insert
     fun addAll(contacts: List<LocalContact>)

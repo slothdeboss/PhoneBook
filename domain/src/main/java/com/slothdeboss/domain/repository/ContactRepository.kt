@@ -8,6 +8,6 @@ interface ContactRepository {
     fun fetchContactById(contactId: Long): Contact
     fun createNewContact(contact: Contact)
     fun updateContact(contact: Contact)
-    fun deleteContact(contact: Contact)
+    fun deleteContact(id: Long)
 
 }

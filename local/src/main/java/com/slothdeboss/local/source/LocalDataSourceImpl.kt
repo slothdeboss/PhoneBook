@@ -31,8 +31,7 @@ class LocalDataSourceImpl(
         dao.updateContact(contact = localContact)
     }
 
-    override fun delete(entity: ContactModel) {
-        val localContact = mapper.toLocal(model = entity)
-        dao.deleteContact(contact = localContact)
+    override fun delete(id: Long) {
+        dao.deleteContact(id = id)
     }
 }

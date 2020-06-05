@@ -25,15 +25,15 @@ class AppViewModel(
             is LoadContactById -> onLoadByIdEvent(id = event.id)
             is UpdateContact -> onUpdateContactEvent(contact = event.contact)
             is CreateContact -> onCreateContactEvent(contact = event.contact)
-            is DeleteContact -> onDeleteContactEvent(contact = event.contact)
+            is DeleteContact -> onDeleteContactEvent(id = event.contactId)
         }
     }
 
-    private fun onDeleteContactEvent(contact: Contact) {
+    private fun onDeleteContactEvent(id: Long) {
         viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    deleteContactUseCase.execute(contact = contact)
+                    deleteContactUseCase.execute(id = id)
                 }
                 _state.value = OnActionSuccessState
             } catch (e: Exception) {

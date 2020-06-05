@@ -33,8 +33,7 @@ class ContactRepositoryImpl(
         localSource.update(entity = model)
     }
 
-    override fun deleteContact(contact: Contact) {
-        val model = mapper.toModel(entity = contact)
-        localSource.delete(entity = model)
+    override fun deleteContact(id: Long) {
+        localSource.delete(id = id)
     }
 }

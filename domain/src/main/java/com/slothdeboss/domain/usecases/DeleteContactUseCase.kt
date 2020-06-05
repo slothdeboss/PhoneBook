@@ -7,6 +7,6 @@ class DeleteContactUseCase(
     private val repository: ContactRepository
 ) {
 
-    fun execute(contact: Contact) = repository.deleteContact(contact = contact)
+    fun execute(id: Long) = repository.deleteContact(id = id)
 
 }

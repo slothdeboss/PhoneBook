@@ -26,5 +26,21 @@
             android:name="contactId"
             android:defaultValue="0L"
             app:argType="long" />
+        <action
+            android:id="@+id/toUpdateContact"
+            app:destination="@id/updateContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateContactFragment"
+        android:name="com.slothdeboss.phonebook.ui.detail.UpdateContactFragment"
+        android:label="Edit contact"
+        tools:layout="@layout/fragment_update_contact">
+        <action
+            android:id="@+id/backToContacts"
+            app:destination="@id/contactListFragment" />
+        <argument
+            android:name="contactId"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
 </navigation>
