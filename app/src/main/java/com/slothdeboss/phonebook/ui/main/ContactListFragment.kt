@@ -1,6 +1,10 @@
 package com.slothdeboss.phonebook.ui.main
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -10,6 +14,7 @@ import com.slothdeboss.domain.state.*
 import com.slothdeboss.phonebook.R
 import com.slothdeboss.phonebook.base.BaseFragment
 import com.slothdeboss.phonebook.event.LoadAllContacts
+import com.slothdeboss.phonebook.event.RefreshContactList
 import com.slothdeboss.phonebook.ui.OnContactClicked
 import com.slothdeboss.phonebook.ui.main.adapter.ContactListAdapter
 import kotlinx.android.synthetic.main.fragment_contact_list.*
@@ -20,6 +25,7 @@ class ContactListFragment : BaseFragment(R.layout.fragment_contact_list), OnCont
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
         contactRecyclerAdapter = ContactListAdapter(contactsOwner = this)
         viewModel.renderEvent(event = LoadAllContacts)
         setupRecycler()
@@ -29,16 +35,46 @@ class ContactListFragment : BaseFragment(R.layout.fragment_contact_list), OnCont
         viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 OnLoadingState -> onLoadingState()
+                OnActionSuccessState -> onActionSuccessState()
                 is OnContactListLoadedState -> onContactsLoadedState(contacts = state.contacts)
                 is OnErrorState -> onErrorState(message = state.message)
             }
         })
     }
 
+    private fun onActionSuccessState() {
+        viewModel.renderEvent(event = LoadAllContacts)
+    }
+
     override fun onClick(id: Long) {
         Navigation.findNavController(btnCreateContact).navigate(
             ContactListFragmentDirections.toContactDetail().setContactId(id)
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.contact_list_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_refresh_contacts_list -> refreshDatabase()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun refreshDatabase() {
+        AlertDialog.Builder(context)
+            .setTitle("Refresh contacts")
+            .setMessage("Are you sure?")
+            .setPositiveButton("Yes") { _, _ ->
+                viewModel.renderEvent(event = RefreshContactList)
+            }
+            .setNegativeButton("No") { _, _ ->
+                return@setNegativeButton
+            }
+            .show()
     }
 
     private fun onContactsLoadedState(contacts: List<Contact>) {

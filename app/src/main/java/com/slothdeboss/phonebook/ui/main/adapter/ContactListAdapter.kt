@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.slothdeboss.domain.entity.Contact
 import com.slothdeboss.phonebook.R
 import com.slothdeboss.phonebook.ui.OnContactClicked
+import com.slothdeboss.phonebook.util.loadImageFromUrl
 import kotlinx.android.synthetic.main.contact_card.view.*
 
 class ContactListAdapter(
@@ -40,6 +41,7 @@ class ContactListViewHolder(val view: View): RecyclerView.ViewHolder(view) {
 
     fun bind(contact: Contact, contactsOwner: OnContactClicked) {
         view.cardContactName.text = contact.name
+        view.cardContactImage.loadImageFromUrl(imageUrl = contact.imageUrl)
         view.setOnClickListener {
             contactsOwner.onClick(id = contact.id)
         }

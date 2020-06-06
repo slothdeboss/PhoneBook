@@ -1,5 +1,6 @@
 package com.slothdeboss.phonebook.ui.detail
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,6 +14,7 @@ import com.slothdeboss.phonebook.R
 import com.slothdeboss.phonebook.base.BaseFragment
 import com.slothdeboss.phonebook.event.DeleteContact
 import com.slothdeboss.phonebook.event.LoadContactById
+import com.slothdeboss.phonebook.util.loadImageFromUrl
 import kotlinx.android.synthetic.main.fragment_contact_details.*
 
 class ContactDetailsFragment : BaseFragment(R.layout.fragment_contact_details) {
@@ -35,20 +37,29 @@ class ContactDetailsFragment : BaseFragment(R.layout.fragment_contact_details) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.contact_delete_option -> onDeleteOption()
-            R.id.contact_edit_option -> onEditOption()
+            R.id.contact_delete_option -> onDeleteOptionSelected()
+            R.id.contact_edit_option -> onEditOptionSelected()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun onEditOption() {
+    private fun onEditOptionSelected() {
         Navigation.findNavController(contactContainer).navigate(
             ContactDetailsFragmentDirections.toUpdateContact().setContactId(contactId)
         )
     }
 
-    private fun onDeleteOption() {
-        viewModel.renderEvent(event = DeleteContact(contactId = contactId))
+    private fun onDeleteOptionSelected() {
+        AlertDialog.Builder(context)
+            .setMessage("Are you sure?")
+            .setTitle("Delete contact")
+            .setPositiveButton("Yes") { _, _ ->
+                viewModel.renderEvent(event = DeleteContact(contactId = contactId))
+            }
+            .setNegativeButton("No") { _, _ ->
+                return@setNegativeButton
+            }
+            .show()
     }
 
     override fun observeState() {
@@ -80,6 +91,7 @@ class ContactDetailsFragment : BaseFragment(R.layout.fragment_contact_details) {
     }
 
     private fun loadContactInFragment(contact: Contact) {
+        contactImage.loadImageFromUrl(imageUrl = contact.imageUrl)
         contactName.text = contact.name
         contactSurname.text = contact.surname
         contactEmail.text = contact.email ?: "Unknown"

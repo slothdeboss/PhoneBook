@@ -34,4 +34,9 @@ class LocalDataSourceImpl(
     override fun delete(id: Long) {
         dao.deleteContact(id = id)
     }
+
+    override fun refreshDatabase() {
+        dao.clearDatabase()
+        dao.addAll(contacts = PrepopulateSource.getPrepopulateContacts())
+    }
 }

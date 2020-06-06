@@ -24,4 +24,6 @@ interface ContactDao {
     @Insert
     fun addAll(contacts: List<LocalContact>)
 
+    @Query("DELETE FROM LocalContact")
+    fun clearDatabase()
 }

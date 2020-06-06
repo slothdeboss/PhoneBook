@@ -4,7 +4,6 @@ import com.slothdeboss.data.mapper.ContactEntityMapper
 import com.slothdeboss.data.source.LocalDataSource
 import com.slothdeboss.domain.entity.Contact
 import com.slothdeboss.domain.repository.ContactRepository
-import sun.rmi.runtime.Log
 
 class ContactRepositoryImpl(
     private val localSource: LocalDataSource,
@@ -35,5 +34,9 @@ class ContactRepositoryImpl(
 
     override fun deleteContact(id: Long) {
         localSource.delete(id = id)
+    }
+
+    override fun refreshDatabase() {
+        localSource.refreshDatabase()
     }
 }

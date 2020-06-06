@@ -9,5 +9,6 @@ interface ContactRepository {
     fun createNewContact(contact: Contact)
     fun updateContact(contact: Contact)
     fun deleteContact(id: Long)
+    fun refreshDatabase()
 
 }

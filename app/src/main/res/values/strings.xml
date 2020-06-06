@@ -5,4 +5,5 @@
     <string name="detail_contact_email_label">"Email: "</string>
     <string name="contact_edit_option">Edit</string>
     <string name="contact_delete_option">Delete</string>
+    <string name="menu_refresh_contacts_list">Refresh</string>
 </resources>

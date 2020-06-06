@@ -15,6 +15,7 @@ import com.slothdeboss.phonebook.R
 import com.slothdeboss.phonebook.base.BaseFragment
 import com.slothdeboss.phonebook.event.LoadContactById
 import com.slothdeboss.phonebook.event.UpdateContact
+import com.slothdeboss.phonebook.util.loadImageFromUrl
 import kotlinx.android.synthetic.main.fragment_update_contact.*
 
 class UpdateContactFragment : BaseFragment(R.layout.fragment_update_contact) {
@@ -68,6 +69,7 @@ class UpdateContactFragment : BaseFragment(R.layout.fragment_update_contact) {
     }
 
     private fun fillContactFields() {
+        contactImage.loadImageFromUrl(imageUrl = changeableContact.imageUrl)
         editContactName.setText(changeableContact.name, TextView.BufferType.EDITABLE)
         editContactSurname.setText(changeableContact.surname, TextView.BufferType.EDITABLE)
         editContactEmail.setText(changeableContact.email, TextView.BufferType.EDITABLE)

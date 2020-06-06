@@ -1,6 +1,5 @@
 package com.slothdeboss.phonebook.ui
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.slothdeboss.domain.entity.Contact
 import com.slothdeboss.domain.state.*
@@ -16,17 +15,34 @@ class AppViewModel(
     private val fetchContactByIdUseCase: FetchContactByIdUseCase,
     private val createContactUseCase: CreateContactUseCase,
     private val updateContactUseCase: UpdateContactUseCase,
-    private val deleteContactUseCase: DeleteContactUseCase
+    private val deleteContactUseCase: DeleteContactUseCase,
+    private val refreshDatabaseUseCase: RefreshDatabaseUseCase
 ): BaseViewModel() {
 
     override fun renderEvent(event: ContactEvent) {
         when (event) {
             LoadAllContacts -> onLoadAllContactsEvent()
+            RefreshContactList -> onRefreshContactListEvent()
             is LoadContactById -> onLoadByIdEvent(id = event.id)
             is UpdateContact -> onUpdateContactEvent(contact = event.contact)
             is CreateContact -> onCreateContactEvent(contact = event.contact)
             is DeleteContact -> onDeleteContactEvent(id = event.contactId)
         }
+    }
+
+    private fun onRefreshContactListEvent() {
+        viewModelScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    refreshDatabaseUseCase.execute()
+                }
+                _state.value = OnActionSuccessState
+            } catch (e: Exception) {
+                e.printStackTrace()
+                pushErrorMessage(message = "Error occurred while updating contacts!")
+            }
+        }
+
     }
 
     private fun onDeleteContactEvent(id: Long) {

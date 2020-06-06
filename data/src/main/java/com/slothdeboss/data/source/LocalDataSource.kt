@@ -9,5 +9,6 @@ interface LocalDataSource {
     fun create(entity: ContactModel)
     fun update(entity: ContactModel)
     fun delete(id: Long)
+    fun refreshDatabase()
 
 }

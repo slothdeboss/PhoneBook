@@ -5,6 +5,7 @@ import com.slothdeboss.domain.entity.Contact
 sealed class ContactEvent
 
 object LoadAllContacts: ContactEvent()
+object RefreshContactList: ContactEvent()
 data class LoadContactById(val id: Long): ContactEvent()
 data class UpdateContact(val contact: Contact): ContactEvent()
 data class CreateContact(val contact: Contact): ContactEvent()
