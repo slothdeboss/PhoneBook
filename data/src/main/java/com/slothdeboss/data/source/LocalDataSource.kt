@@ -6,7 +6,6 @@ interface LocalDataSource {
 
     fun getAll(): List<ContactModel>
     fun getById(id: Long): ContactModel
-    fun create(entity: ContactModel)
     fun update(entity: ContactModel)
     fun delete(id: Long)
     fun refreshDatabase()

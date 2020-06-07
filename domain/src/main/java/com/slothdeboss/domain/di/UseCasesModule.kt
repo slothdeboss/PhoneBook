@@ -9,6 +9,5 @@ val useCasesModule = module {
     factory<FetchAllContactsUseCase>()
     factory<FetchContactByIdUseCase>()
     factory<DeleteContactUseCase>()
-    factory<CreateContactUseCase>()
     factory<RefreshDatabaseUseCase>()
 }

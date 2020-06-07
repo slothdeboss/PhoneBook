@@ -1,6 +1,5 @@
 package com.slothdeboss.domain.usecases
 
-import com.slothdeboss.domain.entity.Contact
 import com.slothdeboss.domain.repository.ContactRepository
 
 class DeleteContactUseCase(

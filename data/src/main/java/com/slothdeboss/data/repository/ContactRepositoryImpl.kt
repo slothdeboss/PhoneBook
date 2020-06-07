@@ -22,11 +22,6 @@ class ContactRepositoryImpl(
         return mapper.toEntity(model = model)
     }
 
-    override fun createNewContact(contact: Contact) {
-        val model = mapper.toModel(entity = contact)
-        localSource.create(entity = model)
-    }
-
     override fun updateContact(contact: Contact) {
         val model = mapper.toModel(entity = contact)
         localSource.update(entity = model)

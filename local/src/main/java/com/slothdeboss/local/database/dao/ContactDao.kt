@@ -12,9 +12,6 @@ interface ContactDao {
     @Query("SELECT * FROM LocalContact WHERE id LIKE :id")
     fun getContactById(id: Long): LocalContact
 
-    @Insert
-    fun createContact(contact: LocalContact)
-
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateContact(contact: LocalContact)
 

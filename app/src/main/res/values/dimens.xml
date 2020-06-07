@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="contact_corner_margin">25dp</dimen>
+    <dimen name="contact_label_top_margin">20dp</dimen>
+    <dimen name="contact_text_top_margin">10dp</dimen>
+</resources>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.detail.UpdateContactFragment">
 
     <ImageView
         android:id="@+id/contactImage"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,8 +18,8 @@
         android:id="@+id/contactNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/contact_corner_margin"
+        android:layout_marginTop="@dimen/contact_label_top_margin"
         android:text="@string/detail_contact_name_label"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -30,44 +30,44 @@
         android:id="@+id/editContactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="@dimen/contact_corner_margin"
+        android:layout_marginTop="@dimen/contact_text_top_margin"
+        android:layout_marginEnd="@dimen/contact_corner_margin"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/contactNameLabel"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/contactNameLabel" />
 
     <TextView
         android:id="@+id/contactSurnameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/contact_corner_margin"
+        android:layout_marginTop="@dimen/contact_label_top_margin"
         android:text="@string/detail_contact_surname_label"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/editContactName"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editContactName" />
 
     <EditText
         android:id="@+id/editContactSurname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="@dimen/contact_corner_margin"
+        android:layout_marginTop="@dimen/contact_text_top_margin"
+        android:layout_marginEnd="@dimen/contact_corner_margin"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/contactSurnameLabel"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/contactSurnameLabel" />
 
     <TextView
         android:id="@+id/contactEmailLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/contact_corner_margin"
+        android:layout_marginTop="@dimen/contact_label_top_margin"
         android:text="@string/detail_contact_email_label"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -78,12 +78,12 @@
         android:id="@+id/editContactEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/contact_corner_margin"
+        android:layout_marginTop="@dimen/contact_text_top_margin"
+        android:layout_marginEnd="@dimen/contact_corner_margin"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contactEmailLabel" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -94,7 +94,7 @@
         android:layout_marginBottom="30dp"
         android:elevation="8dp"
         android:src="@drawable/ic_update_contact"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

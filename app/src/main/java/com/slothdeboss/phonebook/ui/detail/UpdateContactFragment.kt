@@ -1,11 +1,7 @@
 package com.slothdeboss.phonebook.ui.detail
 
-import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -15,6 +11,7 @@ import com.slothdeboss.phonebook.R
 import com.slothdeboss.phonebook.base.BaseFragment
 import com.slothdeboss.phonebook.event.LoadContactById
 import com.slothdeboss.phonebook.event.UpdateContact
+import com.slothdeboss.phonebook.util.buildDialog
 import com.slothdeboss.phonebook.util.loadImageFromUrl
 import kotlinx.android.synthetic.main.fragment_update_contact.*
 
@@ -28,19 +25,7 @@ class UpdateContactFragment : BaseFragment(R.layout.fragment_update_contact) {
             val id = UpdateContactFragmentArgs.fromBundle(it).contactId
             viewModel.renderEvent(event = LoadContactById(id = id))
         }
-        btnUpdateContact.setOnClickListener {
-            val contact = getUpdatedContact()
-            AlertDialog.Builder(context)
-                .setTitle("Contact update")
-                .setMessage("Are you sure?")
-                .setPositiveButton("Yes") { _, _ ->
-                    viewModel.renderEvent(event = UpdateContact(contact = contact))
-                }
-                .setNegativeButton("No") { _, _ ->
-                    displayMessage("Operation canceled!")
-                }
-                .show()
-        }
+        setupUpdateButton()
     }
 
     override fun observeState() {
@@ -66,6 +51,19 @@ class UpdateContactFragment : BaseFragment(R.layout.fragment_update_contact) {
     private fun onContactLoadedState(contact: Contact) {
         changeableContact = contact
         fillContactFields()
+    }
+
+    private fun setupUpdateButton() {
+        btnUpdateContact.setOnClickListener {
+            val contact = getUpdatedContact()
+            val dialog = buildDialog(
+                requireContext(),
+                "Contact update",
+                viewModel::renderEvent,
+                UpdateContact(contact = contact)
+            )
+            dialog.show()
+        }
     }
 
     private fun fillContactFields() {

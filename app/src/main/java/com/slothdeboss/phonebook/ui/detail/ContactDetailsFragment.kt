@@ -1,6 +1,5 @@
 package com.slothdeboss.phonebook.ui.detail
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,6 +13,7 @@ import com.slothdeboss.phonebook.R
 import com.slothdeboss.phonebook.base.BaseFragment
 import com.slothdeboss.phonebook.event.DeleteContact
 import com.slothdeboss.phonebook.event.LoadContactById
+import com.slothdeboss.phonebook.util.buildDialog
 import com.slothdeboss.phonebook.util.loadImageFromUrl
 import kotlinx.android.synthetic.main.fragment_contact_details.*
 
@@ -41,25 +41,6 @@ class ContactDetailsFragment : BaseFragment(R.layout.fragment_contact_details) {
             R.id.contact_edit_option -> onEditOptionSelected()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun onEditOptionSelected() {
-        Navigation.findNavController(contactContainer).navigate(
-            ContactDetailsFragmentDirections.toUpdateContact().setContactId(contactId)
-        )
-    }
-
-    private fun onDeleteOptionSelected() {
-        AlertDialog.Builder(context)
-            .setMessage("Are you sure?")
-            .setTitle("Delete contact")
-            .setPositiveButton("Yes") { _, _ ->
-                viewModel.renderEvent(event = DeleteContact(contactId = contactId))
-            }
-            .setNegativeButton("No") { _, _ ->
-                return@setNegativeButton
-            }
-            .show()
     }
 
     override fun observeState() {
@@ -90,14 +71,30 @@ class ContactDetailsFragment : BaseFragment(R.layout.fragment_contact_details) {
         detailLoadingBar.visibility = View.VISIBLE
     }
 
+    private fun onErrorState(message: String) {
+        displayMessage(message = message)
+    }
+
+    private fun onEditOptionSelected() {
+        Navigation.findNavController(contactContainer).navigate(
+            ContactDetailsFragmentDirections.toUpdateContact().setContactId(contactId)
+        )
+    }
+
+    private fun onDeleteOptionSelected() {
+        val dialog = buildDialog(
+            requireContext(),
+            "Delete contact",
+            viewModel::renderEvent,
+            DeleteContact(contactId = contactId)
+        )
+        dialog.show()
+    }
+
     private fun loadContactInFragment(contact: Contact) {
         contactImage.loadImageFromUrl(imageUrl = contact.imageUrl)
         contactName.text = contact.name
         contactSurname.text = contact.surname
         contactEmail.text = contact.email ?: "Unknown"
-    }
-
-    private fun onErrorState(message: String) {
-        displayMessage(message = message)
     }
 }

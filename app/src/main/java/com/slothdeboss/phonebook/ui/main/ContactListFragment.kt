@@ -1,6 +1,5 @@
 package com.slothdeboss.phonebook.ui.main
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,6 +16,7 @@ import com.slothdeboss.phonebook.event.LoadAllContacts
 import com.slothdeboss.phonebook.event.RefreshContactList
 import com.slothdeboss.phonebook.ui.OnContactClicked
 import com.slothdeboss.phonebook.ui.main.adapter.ContactListAdapter
+import com.slothdeboss.phonebook.util.buildDialog
 import kotlinx.android.synthetic.main.fragment_contact_list.*
 
 class ContactListFragment : BaseFragment(R.layout.fragment_contact_list), OnContactClicked {
@@ -29,27 +29,6 @@ class ContactListFragment : BaseFragment(R.layout.fragment_contact_list), OnCont
         contactRecyclerAdapter = ContactListAdapter(contactsOwner = this)
         viewModel.renderEvent(event = LoadAllContacts)
         setupRecycler()
-    }
-    
-    override fun observeState() {
-        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                OnLoadingState -> onLoadingState()
-                OnActionSuccessState -> onActionSuccessState()
-                is OnContactListLoadedState -> onContactsLoadedState(contacts = state.contacts)
-                is OnErrorState -> onErrorState(message = state.message)
-            }
-        })
-    }
-
-    private fun onActionSuccessState() {
-        viewModel.renderEvent(event = LoadAllContacts)
-    }
-
-    override fun onClick(id: Long) {
-        Navigation.findNavController(btnCreateContact).navigate(
-            ContactListFragmentDirections.toContactDetail().setContactId(id)
-        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -64,17 +43,21 @@ class ContactListFragment : BaseFragment(R.layout.fragment_contact_list), OnCont
         return super.onOptionsItemSelected(item)
     }
 
-    private fun refreshDatabase() {
-        AlertDialog.Builder(context)
-            .setTitle("Refresh contacts")
-            .setMessage("Are you sure?")
-            .setPositiveButton("Yes") { _, _ ->
-                viewModel.renderEvent(event = RefreshContactList)
+    override fun observeState() {
+        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                OnLoadingState -> onLoadingState()
+                OnActionSuccessState -> onActionSuccessState()
+                is OnContactListLoadedState -> onContactsLoadedState(contacts = state.contacts)
+                is OnErrorState -> onErrorState(message = state.message)
             }
-            .setNegativeButton("No") { _, _ ->
-                return@setNegativeButton
-            }
-            .show()
+        })
+    }
+
+    override fun onClick(id: Long) {
+        Navigation.findNavController(contactsList).navigate(
+            ContactListFragmentDirections.toContactDetail().setContactId(id)
+        )
     }
 
     private fun onContactsLoadedState(contacts: List<Contact>) {
@@ -93,12 +76,24 @@ class ContactListFragment : BaseFragment(R.layout.fragment_contact_list), OnCont
         displayMessage(message = message)
     }
 
+    private fun onActionSuccessState() {
+        viewModel.renderEvent(event = LoadAllContacts)
+    }
+
+    private fun refreshDatabase() {
+        val dialog = buildDialog(
+            requireContext(),
+            "Refresh contacts",
+            viewModel::renderEvent,
+            RefreshContactList
+        )
+        dialog.show()
+    }
+
     private fun setupRecycler() {
         contactsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = contactRecyclerAdapter
         }
     }
-
-
 }

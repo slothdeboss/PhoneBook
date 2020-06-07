@@ -13,7 +13,6 @@ import kotlinx.coroutines.withContext
 class AppViewModel(
     private val fetchAllContactsUseCase: FetchAllContactsUseCase,
     private val fetchContactByIdUseCase: FetchContactByIdUseCase,
-    private val createContactUseCase: CreateContactUseCase,
     private val updateContactUseCase: UpdateContactUseCase,
     private val deleteContactUseCase: DeleteContactUseCase,
     private val refreshDatabaseUseCase: RefreshDatabaseUseCase
@@ -25,7 +24,6 @@ class AppViewModel(
             RefreshContactList -> onRefreshContactListEvent()
             is LoadContactById -> onLoadByIdEvent(id = event.id)
             is UpdateContact -> onUpdateContactEvent(contact = event.contact)
-            is CreateContact -> onCreateContactEvent(contact = event.contact)
             is DeleteContact -> onDeleteContactEvent(id = event.contactId)
         }
     }
@@ -42,7 +40,6 @@ class AppViewModel(
                 pushErrorMessage(message = "Error occurred while updating contacts!")
             }
         }
-
     }
 
     private fun onDeleteContactEvent(id: Long) {
@@ -55,20 +52,6 @@ class AppViewModel(
             } catch (e: Exception) {
                 e.printStackTrace()
                 pushErrorMessage(message = "Error occurred while deleting contact!")
-            }
-        }
-    }
-
-    private fun onCreateContactEvent(contact: Contact) {
-        viewModelScope.launch {
-            try {
-                withContext(Dispatchers.IO) {
-                    createContactUseCase.execute(contact = contact)
-                }
-                _state.value = OnActionSuccessState
-            } catch (e: Exception) {
-                e.printStackTrace()
-                pushErrorMessage(message = "Can't create new contact!")
             }
         }
     }

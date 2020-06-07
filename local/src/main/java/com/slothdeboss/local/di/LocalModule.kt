@@ -1,4 +1,5 @@
 package com.slothdeboss.local.di
+
 import com.slothdeboss.data.source.LocalDataSource
 import com.slothdeboss.local.database.AppDatabase
 import com.slothdeboss.local.mapper.LocalContactMapper

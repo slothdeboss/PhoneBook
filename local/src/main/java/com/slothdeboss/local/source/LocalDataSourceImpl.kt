@@ -21,11 +21,6 @@ class LocalDataSourceImpl(
         return mapper.toModel(local = localContact)
     }
 
-    override fun create(entity: ContactModel) {
-        val localContact = mapper.toLocal(model = entity)
-        dao.createContact(contact = localContact)
-    }
-
     override fun update(entity: ContactModel) {
         val localContact = mapper.toLocal(model = entity)
         dao.updateContact(contact = localContact)
@@ -39,4 +34,5 @@ class LocalDataSourceImpl(
         dao.clearDatabase()
         dao.addAll(contacts = PrepopulateSource.getPrepopulateContacts())
     }
+
 }
