@@ -7,6 +7,6 @@ Clean architecture
 MVVM + MVI
 Android architecture components(LiveData, Lifecycle, ViewModel, Navigation, Room)
 Glide
-Dependency injection with koin
+Dependency injection with Koin
 Kotlin coroutines
 ```
